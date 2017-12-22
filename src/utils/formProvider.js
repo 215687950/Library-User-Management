@@ -25,6 +25,27 @@ function formProvider (fields) {
           formValid: false
         };
         this.handleValueChange = this.handleValueChange.bind(this);
+        this.setFormValues = this.setFormValues.bind(this);
+      }
+
+      setFormValues (values) {
+        if (!values) {
+          return;
+        }
+
+        const {form} = this.state;
+        let newForm = {...form};
+        for (const field in form) {
+          if (form.hasOwnProperty(field)) {
+            if (typeof values[field] !== 'undefined') {
+              newForm[field] = {...newForm[field], value: values[field]};
+            }
+            // 正常情况下主动设置的每个字段一定是有效的
+            newForm[field].valid = true;
+          }
+        }
+
+        this.setState({form: newForm});
       }
 
       handleValueChange (fieldName, value) {
@@ -59,7 +80,15 @@ function formProvider (fields) {
 
       render () {
         const { form, formValid } = this.state;
-        return <Comp {...this.props} form={form} formValid={formValid} onFormChange={this.handleValueChange}/>
+        return (
+          <Comp
+            {...this.props}
+            form={form}
+            formValid={formValid}
+            onFormChange={this.handleValueChange}
+            setFormValues={this.setFormValues}
+          />
+        )
       }
     }
 
