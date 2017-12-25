@@ -57,8 +57,10 @@ function formProvider (fields) {
           const { pattern, error } = fieldRules[i];
           let valid = false;
           if (typeof pattern === 'function') {
+            // 函数
             valid = pattern(value);
           } else {
+            // 正则
             valid = pattern.test(value);
           }
 
