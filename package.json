@@ -1,22 +1,20 @@
 {
-  "name": "react-project",
+  "name": "react-curd",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node server/index.js",
     "dev": "roadhog server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^3.0.2"
   },
   "devDependencies": {
-    "json-server": "^0.12.1"
+    "json-server": "^0.9.4"
   }
 }
