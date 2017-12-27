@@ -8,11 +8,13 @@ import UserEditPage from './pages/UserEdit';
 import BookListPage from './pages/BookList';
 import BookEditPage from './pages/BookEdit';
 import BookAddPage from './pages/BookAdd';
+import LoginPage from './pages/Login';
 
 
 ReactDOM.render((
     <Router>
       <Switch>
+        <Route path="/login" component={LoginPage} />
         <Route exact path="/" component={HomePage} />
         <Route path="/user/add" component={UserAddPage}/>
         <Route path="/user/list" component={UserListPage}/>

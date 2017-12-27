@@ -1,6 +1,7 @@
 import React from 'react';
 import HomeLayout from '../layouts/HomeLayout';
 import UserEditor from '../components/UserEditor';
+import {get} from '../utils/request';
 
 class UserEdit extends React.Component {
   constructor (props) {
@@ -14,8 +15,7 @@ class UserEdit extends React.Component {
     // const userId = this.context.router.param.id;
     const userId = this.props.match.params.id;
     // console.log(userId);
-    fetch('http://localhost:3000/user/' + userId)
-      .then(res => res.json())
+    get('http://localhost:3000/user/' + userId)
       .then(res => {
         this.setState({
           user: res

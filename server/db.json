@@ -1,28 +1,16 @@
 {
   "user": [
     {
-      "id": 10000,
       "name": "李四",
-      "age": 25,
-      "gender": "male"
+      "age": "24",
+      "gender": "male",
+      "id": 10000
     },
     {
       "id": 10001,
       "name": "张三",
       "age": 30,
       "gender": "female"
-    },
-    {
-      "name": "树兰",
-      "age": "1",
-      "gender": "male",
-      "id": 10004
-    },
-    {
-      "name": "华卓",
-      "age": "2",
-      "gender": "male",
-      "id": 10005
     },
     {
       "name": "王五",
@@ -37,24 +25,24 @@
       "id": 10008
     },
     {
-      "name": "温声凤",
-      "age": "30",
-      "gender": "female",
+      "name": "哇哈哈",
+      "age": "12",
+      "gender": "male",
       "id": 10009
     }
   ],
   "book": [
     {
-      "id": 10000,
       "name": "JavaScript从入门到精通",
-      "price": 9990,
-      "owner_id": 10000
+      "price": "9991",
+      "owner_id": 10000,
+      "id": 10000
     },
     {
-      "name": "Java从入门到放弃",
-      "price": "1990",
-      "owner_id": "10001",
-      "id": 10002
+      "name": "JAVA从入门到放弃",
+      "price": "1000",
+      "owner_id": 10009,
+      "id": 10001
     }
   ]
 }

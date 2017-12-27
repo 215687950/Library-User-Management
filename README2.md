@@ -17,6 +17,9 @@
     json-server：
         npm i json-server -g
         json-server db.json -w -p 3000
+        
+        本地 npm i json-server -D
+        
 
 项目搭建
 

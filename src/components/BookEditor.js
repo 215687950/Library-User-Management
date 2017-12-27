@@ -1,15 +1,19 @@
 import React from 'react';
 import FormItem from './FormItem';
 import formProvider from '../utils/formProvider';
+import AutoComplete from './AutoComplete';
+import request, {get} from '../utils/request';
 
 class BookEditor extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+      recommendUsers: []
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillMount () {
-    console.log(this.props);
     const {editTarget, setFormValues} = this.props;
     if (editTarget) {
       setFormValues(editTarget);
@@ -34,18 +38,11 @@ class BookEditor extends React.Component {
       method = 'put';
     }
 
-    fetch(apiUrl, {
-      method,
-      body: JSON.stringify({
-        name: name.value,
-        price: price.value,
-        owner_id: owner_id.value
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    request(method, apiUrl, {
+      name: name.value,
+      price: price.value,
+      owner_id: owner_id.value
     })
-      .then((res) => res.json())
       .then((res) => {
         if (res.id) {
           alert(editType + '成功');
@@ -58,7 +55,45 @@ class BookEditor extends React.Component {
       .catch((err) => console.log(err));
   }
 
+  getRecommendUsers (partialUserId) {
+    get('http://localhost:3000/user?id_like=' + partialUserId)
+      .then((res) => {
+        // 只有一条，且与输入id相同，则说明输入了完整id，不需要推荐列表
+        if (res.length === 1 && res[0].id == partialUserId) {
+          return;
+        }
+
+        this.setState({
+          recommendUsers: res.map((user) => {
+            return {
+              text: `${user.id} (${user.name})`,
+              value: user.id
+            }
+          })
+        })
+      })
+  }
+
+  timer = 0;
+  handleOwnerIdChange (value) {
+    this.props.onFormChange('owner_id', value);
+    this.setState({recommendUsers: []});
+
+    // 使用“节流”的方式进行请求，防止用户输入的过程中过多地发送请求
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    if (value) {
+      this.timer = setTimeout(() => {
+        this.getRecommendUsers(value);
+        this.timer = 0;
+      }, 200)
+    }
+  }
+
   render () {
+    const {recommendUsers} = this.state;
     const {form: {name, price, owner_id}, onFormChange} = this.props;
     return (
       <form onSubmit={this.handleSubmit}>
@@ -77,7 +112,11 @@ class BookEditor extends React.Component {
         </FormItem>
 
         <FormItem label="所有者：" valid={owner_id.valid} error={owner_id.error}>
-          <input type="number" value={owner_id.value || ''} onChange={e => onFormChange('owner_id', e.target.value)}/>
+          {/*<input type="number" value={owner_id.value || ''} onChange={e => onFormChange('owner_id', e.target.value)}/>*/}
+          <AutoComplete
+            value={owner_id.value ? owner_id.value + '' : ''}
+            options={recommendUsers}
+            onValueChange={value => this.handleOwnerIdChange(value)} />
         </FormItem>
         <br/>
         <input type="submit" value="提交"/>
