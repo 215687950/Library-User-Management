@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Input } from 'antd';
 import style from '../styles/auto-complete.less';
 
 function getItemValue (item) {
@@ -10,6 +11,7 @@ class AutoComplete extends React.Component {
     super(props);
 
     this.state = {
+      show: false,
       displayValue: '',
       activeItemIndex: -1
     };
@@ -20,7 +22,7 @@ class AutoComplete extends React.Component {
 
   handleChange (value) {
     this.setState({activeItemIndex: -1, displayValue: ''});
-    this.props.onValueChange(value);
+    this.props.onChange(value);
   }
 
   handleKeyDown (e) {
@@ -43,6 +45,17 @@ class AutoComplete extends React.Component {
         break;
       }
     }
+  }
+
+  timer = 0;
+  handleBlur () {
+    if (this.timer) {
+      clearTimeout(this.timer)
+    }
+
+    this.timer = setTimeout(() => {
+      this.setState({show: false})
+    }, 200)
   }
 
   moveItem (direction) {
@@ -84,16 +97,18 @@ class AutoComplete extends React.Component {
   }
 
   render () {
-    const {displayValue, activeItemIndex} = this.state;
+    const {show, displayValue, activeItemIndex} = this.state;
     const {value, options} = this.props;
     return (
       <div className={style.wrapper}>
-        <input
+        <Input
           value={displayValue || value}
           onChange={e => this.handleChange(e.target.value)}
           onKeyDown={this.handleKeyDown}
+          onFocus={() => this.setState({show: true})}
+          onBlur={() => this.handleBlur}
         />
-        {options.length > 0 && (
+        {show && options.length > 0 && (
           <ul className={style.options} onMouseLeave={this.handleLeave}>
             {
               options.map((item, index) => {
@@ -117,9 +132,9 @@ class AutoComplete extends React.Component {
 }
 
 AutoComplete.propTypes = {
-  value: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-  onValueChange: PropTypes.func.isRequired
+  value: PropTypes.any,
+  options: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default AutoComplete;

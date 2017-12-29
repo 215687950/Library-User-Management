@@ -1,16 +1,16 @@
 {
   "user": [
     {
-      "id": 10000,
       "name": "一韬",
-      "age": 25,
-      "gender": "male"
+      "age": 26,
+      "gender": "male",
+      "id": 10000
     },
     {
-      "id": 10001,
       "name": "张三",
       "age": 30,
-      "gender": "female"
+      "gender": "female",
+      "id": 10001
     }
   ],
   "book": [
@@ -21,10 +21,10 @@
       "id": 10000
     },
     {
-      "id": 10001,
       "name": "Java从入门到放弃",
       "price": 1990,
-      "owner_id": 10001
+      "owner_id": 10000,
+      "id": 10001
     }
   ]
 }
